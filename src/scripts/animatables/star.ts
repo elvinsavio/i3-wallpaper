@@ -1,5 +1,6 @@
 import * as PIXI from "pixi.js";
 import { getRandomArbitrary } from "../utils/utils";
+import { Gui } from "../gui/gui";
 
 interface TPos {
     x: number;
@@ -10,16 +11,34 @@ export class StarManager {
     app: PIXI.Application;
     starCount: number;
     stars: Array<Star>;
+    paused: boolean
 
     constructor(app: PIXI.Application) {
         this.app = app;
+        this.paused = false
         this.starCount = 10;
         this.stars = [];
 
         for (let i = 0; i < this.starCount; i++) {
             this.createNewStar();
         }
+        new Gui(this.togglePause.bind(this),)
+
     }
+
+
+
+    debug() {
+        function modifyStarCount() {
+
+        }
+    }
+
+    togglePause() {
+        this.paused = !this.paused
+    }
+
+
 
     createNewStar() {
         let star: Star;
@@ -29,6 +48,8 @@ export class StarManager {
     }
 
     update() {
+        if (this.paused) return
+
         for (let i = this.stars.length - 1; i >= 0; i--) {
             const star = this.stars[i];
             star.update();
@@ -37,6 +58,7 @@ export class StarManager {
 }
 
 class Star {
+    debug: boolean;
     graphics: PIXI.Graphics;
     trails: PIXI.Point[];
     center: TPos;
@@ -47,12 +69,10 @@ class Star {
     maxSize: number;
     speed: number;
     luck: boolean;
-    initial: boolean;
     trailLength: number;
     debugText: PIXI.Text; // New property for debug text
 
-    constructor(initial: boolean) {
-        this.initial = initial;
+    constructor(debug: boolean) {
         this.graphics = new PIXI.Graphics();
         this.trails = [];
         this.center = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
@@ -67,7 +87,9 @@ class Star {
 
         // Create debug text
         this.debugText = new PIXI.Text('hello world', { fill: 0xffffff, fontSize: 8 });
-        this.graphics.addChild(this.debugText); // Add debug text to the graphics container
+        if (debug) {
+            this.graphics.addChild(this.debugText); // Add debug text to the graphics container
+        }
     }
 
     reset() {
@@ -96,7 +118,7 @@ class Star {
 
     _updateSize() {
         if (this.size >= this.maxSize) return;
-        this.size += 0.01 ; // Adjust size based on delta time
+        this.size += 0.01; // Adjust size based on delta time
     }
 
     _updatePos() {
@@ -104,7 +126,7 @@ class Star {
             this.reset();
         }
         this.pos.x += this.targetPos.x * this.speed;
-        this.pos.y += this.targetPos.y  * this.speed;
+        this.pos.y += this.targetPos.y * this.speed;
 
         // Add current position to the trail
         this.trails.push(new PIXI.Point(this.pos.x, this.pos.y));
@@ -117,7 +139,7 @@ class Star {
 
     _updateDebugText() {
         this.debugText.text = `Pos: (${this.pos.x.toFixed(2)}, ${this.pos.y.toFixed(2)})\n` +
-                              `Vel: (${this.targetPos.x.toFixed(2)}, ${this.targetPos.y.toFixed(2)})`;
+            `Vel: (${this.targetPos.x.toFixed(2)}, ${this.targetPos.y.toFixed(2)})`;
         this.debugText.position.set(this.pos.x, this.pos.y); // Adjust position of debug text relative to the star
     }
 
@@ -136,7 +158,10 @@ class Star {
         this._updateSize();
         this._updatePos();
         this._draw();
-        this._updateDebugText(); // Call method to update debug text
+
+        if (this.debug) {
+            this._updateDebugText(); // Call method to update debug text
+        }
     }
 }
 
