@@ -17,7 +17,7 @@ body {
     width: 100vw;
     position: absolute;
     filter: blur(10px);
-    background-color: rgba(0, 0, 22, 0.389);
+    background-color: rgba(0, 0, 0, 0.389);
 }
 
 
@@ -61,14 +61,17 @@ button {
     transform: translate(-50%, -50%);
     color: white;
     text-align: center;
-    text-shadow: 0px 0px 10px gold;
 }
 
 
 #time {
-    font-size: 10rem
+    font-size: 10rem;
+    text-shadow: 5px 5px 0px rgba(0, 255, 26, 0.465);
+
 }
 
 #date {
     font-size: 2.5rem;
+    font-weight: 800;
+    text-shadow: 3px 3px 0px rgba(0, 255, 68, 0.465);
 }

@@ -22,27 +22,28 @@ export class StarManager {
         for (let i = 0; i < this.starCount; i++) {
             this.createNewStar();
         }
-        new Gui(this.togglePause.bind(this),)
+        new Gui(this.togglePause.bind(this), this.toggleDebug.bind(this))
 
     }
 
 
-
-    debug() {
-        function modifyStarCount() {
-
-        }
-    }
 
     togglePause() {
         this.paused = !this.paused
     }
 
+    toggleDebug() {
+        this.stars.forEach(star => {
+            star.toggleDebug()
+        })
+    }
+
+
 
 
     createNewStar() {
         let star: Star;
-        star = new Star(false);
+        star = new Star();
         this.stars.push(star);
         this.app.stage.addChild(star.graphics);
     }
@@ -72,7 +73,7 @@ class Star {
     trailLength: number;
     debugText: PIXI.Text; // New property for debug text
 
-    constructor(debug: boolean) {
+    constructor() {
         this.graphics = new PIXI.Graphics();
         this.trails = [];
         this.center = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
@@ -84,12 +85,16 @@ class Star {
         this.speed = 10;
         this.targetPos = { x: getRandomArbitrary(-1, 1), y: (getRandomArbitrary(-1, 1)) };
         this.trailLength = 10; // Number of points in the trail
+        this.debug = false
 
         // Create debug text
         this.debugText = new PIXI.Text('hello world', { fill: 0xffffff, fontSize: 8 });
-        if (debug) {
-            this.graphics.addChild(this.debugText); // Add debug text to the graphics container
-        }
+        this.graphics.addChild(this.debugText); // Add debug text to the graphics container
+    }
+
+    toggleDebug() {
+        this.debug = !this.debug
+        this.debugText.visible = this.debug; 
     }
 
     reset() {
