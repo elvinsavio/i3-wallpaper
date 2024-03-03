@@ -88,7 +88,7 @@ class Star {
         this.debug = false
 
         // Create debug text
-        this.debugText = new PIXI.Text('hello world', { fill: 0xffffff, fontSize: 8 });
+        this.debugText = new PIXI.Text('', { fill: 0xffffff, fontSize: 8 });
         this.graphics.addChild(this.debugText); // Add debug text to the graphics container
     }
 
