@@ -16,7 +16,7 @@ export class StarManager {
     constructor(app: PIXI.Application) {
         this.app = app;
         this.paused = false
-        this.starCount = 10;
+        this.starCount = 100;
         this.stars = [];
 
         for (let i = 0; i < this.starCount; i++) {
@@ -78,7 +78,7 @@ class Star {
         this.trails = [];
         this.center = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
         this.luck = getRandomArbitrary(-1, 100) <= 0;
-        this.color = this.luck ? 0xFFD700 : 0xffffff;
+        this.color = this.luck ? 0xFFD700 : 0x02f24f;
         this.pos = { ...this.center };
         this.size = 0;
         this.maxSize = 5;

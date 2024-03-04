@@ -1,6 +1,6 @@
 import "./style.css";
 import * as PIXI from 'pixi.js';
-import { StarManager } from "./scripts/animatables/star";
+import { StarManager } from "./scripts/animatable/star";
 import { Clock } from "./scripts/gui/time";
 
 
@@ -18,10 +18,9 @@ class App {
     });
 
     document.body.appendChild(this.app.view as any);
-
     new Clock()
     this.starManager = new StarManager(this.app)
-
+    
     this.app.ticker.add(() => {
       this.starManager.update()
     })
