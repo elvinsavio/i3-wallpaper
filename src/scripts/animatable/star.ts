@@ -16,7 +16,7 @@ export class StarManager {
     constructor(app: PIXI.Application) {
         this.app = app;
         this.paused = false
-        this.starCount = 100;
+        this.starCount = 300;
         this.stars = [];
 
         for (let i = 0; i < this.starCount; i++) {
